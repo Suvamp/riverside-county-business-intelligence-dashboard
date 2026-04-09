@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: rv-bi-dashboard
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:server --workers 1 --threads 2 --timeout 300
+    envVars:
+      - key: CENSUS_API_KEY
+        sync: false   # set this manually in Render dashboard
+    autoDeploy: true

@@ -1,0 +1,17 @@
+# Secrets
+.env
+
+# Large/private docs
+*.pdf
+*.docx
+
+# Python
+__pycache__/
+*.pyc
+
+# Mac
+.DS_Store
+
+# Temp/generated
+/tmp/
+*.geojson
