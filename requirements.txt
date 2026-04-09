@@ -9,3 +9,4 @@ scikit-learn==1.5.0
 libpysal==4.12.0
 esda==2.6.0
 gunicorn==22.0.0
+matplotlib==3.8.4
