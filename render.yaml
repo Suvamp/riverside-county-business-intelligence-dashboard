@@ -2,6 +2,7 @@ services:
   - type: web
     name: rv-bi-dashboard
     runtime: python
+    pythonVersion: "3.11.9"
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:server --workers 1 --threads 2 --timeout 300
     envVars:
