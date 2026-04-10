@@ -85,17 +85,32 @@ def build_data():
     WAC_URL   = f"{LODES_BASE}/wac/ca_wac_S000_JT00_{LODES_YEAR}.csv.gz"
     XWALK_URL = f"{LODES_BASE}/ca_xwalk.csv.gz"
 
-    df_wac_ca = download_lodes(WAC_URL, "LODES WAC (all CA)")
-    r_xwalk   = requests.get(XWALK_URL, timeout=180)
-    df_xwalk  = pd.read_csv(
-        io.BytesIO(r_xwalk.content), compression='gzip',
-        dtype={'tabblk2020': str, 'trct': str, 'cty': str, 'stplcfp': str}
+    # Load crosswalk first to get Riverside block IDs
+    r_xwalk  = requests.get(XWALK_URL, timeout=180)
+    df_xwalk = pd.read_csv(
+    io.BytesIO(r_xwalk.content), compression='gzip',
+    dtype={'tabblk2020': str, 'trct': str, 'cty': str, 'stplcfp': str}
     )
+
     print(f"  Crosswalk: {len(df_xwalk):,} blocks")
 
     riverside_blocks = df_xwalk[df_xwalk['cty'] == COUNTY_FIPS]['tabblk2020'].astype(str)
     rv_blocks_set    = set(riverside_blocks.values)
+
+    # Load WAC with only needed columns, then immediately filter to Riverside
+    r_wac   = requests.get(WAC_URL, timeout=180)
+    wac_cols = ['w_geocode', 'C000', 'CE01', 'CE02', 'CE03',
+                'CNS01','CNS02','CNS03','CNS04','CNS05','CNS06','CNS07',
+                'CNS08','CNS09','CNS10','CNS11','CNS12','CNS13','CNS14',
+                'CNS15','CNS16','CNS17','CNS18','CNS19','CNS20']
+    df_wac_ca = pd.read_csv(
+        io.BytesIO(r_wac.content), compression='gzip',
+        dtype={'w_geocode': str}, usecols=wac_cols
+    )
+    
     df_wac = df_wac_ca[df_wac_ca['w_geocode'].isin(rv_blocks_set)].copy()
+    del df_wac_ca  # free the full CA dataframe immediately
+    print(f"  Riverside WAC blocks: {len(df_wac):,}")
 
     # 2. Tract aggregation
     print("\n[2/6] WAC → tract aggregation")
