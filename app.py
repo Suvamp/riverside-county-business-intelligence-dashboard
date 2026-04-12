@@ -109,8 +109,10 @@ def build_data():
     )
     
     df_wac = df_wac_ca[df_wac_ca['w_geocode'].isin(rv_blocks_set)].copy()
-    del df_wac_ca  # free the full CA dataframe immediately
-    print(f"  Riverside WAC blocks: {len(df_wac):,}")
+    ca_total_jobs    = df_wac_ca['C000'].sum()
+    ca_sector_totals = df_wac_ca[sector_cols].sum()
+    del df_wac_ca
+
 
     # 2. Tract aggregation
     print("\n[2/6] WAC → tract aggregation")
@@ -230,8 +232,8 @@ def build_data():
     print("\n[6/6] Shift-share + OD commute")
     rv_sector = df_tract_jobs[sector_cols].sum()
     rv_total  = df_tract_jobs['total_jobs'].sum()
-    ca_sector = df_wac_ca[sector_cols].sum()
-    ca_total  = df_wac_ca['C000'].sum()
+    ca_sector = ca_sector_totals
+    ca_total  = ca_total_jobs
     shift_data = []
     for col in sector_cols:
         E_i = rv_sector[col]
