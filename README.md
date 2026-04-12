@@ -1,3 +1,12 @@
+---
+title: Riverside County BI Dashboard
+emoji: 🗺
+colorFrom: blue
+colorTo: teal
+sdk: docker
+pinned: false
+---
+
 # Riverside County Business Intelligence Dashboard
 
 **Spatial Workforce & Economic Analysis** | LEHD LODES 8 + Census ACS 5-Year | 2021
