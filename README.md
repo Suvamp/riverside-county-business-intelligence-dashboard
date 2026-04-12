@@ -11,6 +11,7 @@ pinned: false
 
 **Spatial Workforce & Economic Analysis** | LEHD LODES 8 + Census ACS 5-Year | 2021
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-HuggingFace-FFD21E?logo=huggingface&logoColor=000)](https://huggingface.co/spaces/darthsuvius/rv-bi-dashboard)
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://python.org)
 [![GeoPandas](https://img.shields.io/badge/GeoPandas-0.14-139C5A?logo=python&logoColor=white)](https://geopandas.org)
 [![Plotly Dash](https://img.shields.io/badge/Plotly_Dash-2.14-3F4F75?logo=plotly&logoColor=white)](https://dash.plotly.com)
@@ -104,6 +105,21 @@ Raw Sources
 
 ---
 
+## Deployment
+
+The interactive dashboard is deployed on **Hugging Face Spaces** using Docker:
+
+- **Live app:** https://huggingface.co/spaces/darthsuvius/rv-bi-dashboard
+- **Runtime:** Python 3.11 · Gunicorn · Docker (CPU Basic — 2 vCPU, 16GB RAM)
+- **Cold start:** ~2 minutes — the data pipeline fetches LODES + ACS live at startup; no local files required
+
+To redeploy after changes:
+```bash
+git push hf main
+```
+
+---
+
 ## Outputs
 
 | File | Description | How to View |
@@ -136,8 +152,8 @@ All data sources are **free and publicly available** — no paid API keys requir
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Suvamp/riverside-county-bi-dashboard.git
-cd riverside-county-bi-dashboard
+git clone https://github.com/Suvamp/riverside-county-business-intelligence-dashboard.git
+cd riverside-county-business-intelligence-dashboard
 
 # 2. Create the environment from the YAML
 conda env create -f environment.yml
@@ -338,6 +354,8 @@ The ArcGIS Online map will render as a live iframe directly in the notebook outp
 riverside-county-bi-dashboard/
 +-- rv_bi_dashboard.ipynb               # Main analysis notebook (21 cells)
 +-- environment.yml                     # Conda environment spec
++-- Dockerfile                          # Hugging Face Spaces deployment
++-- requirements.txt                    # Python dependencies
 +-- README.md                           # This file
 +-- outputs/
 |   +-- rv_county_bi_dashboard.html         # Standalone Plotly dashboard
