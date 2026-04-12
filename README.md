@@ -2,7 +2,7 @@
 title: Riverside County BI Dashboard
 emoji: 🗺
 colorFrom: blue
-colorTo: teal
+colorTo: green
 sdk: docker
 pinned: false
 ---
