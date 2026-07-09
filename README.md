@@ -1,6 +1,5 @@
 ---
 title: Riverside County BI Dashboard
-emoji: 🗺
 colorFrom: blue
 colorTo: green
 sdk: docker
